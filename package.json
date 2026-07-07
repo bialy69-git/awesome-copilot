@@ -1,13 +1,27 @@
 {
   "name": "awesome-copilot",
   "version": "1.0.0",
-  "description": "Enhance your GitHub Copilot experience with community-contributed instructions, prompts, and chat modes",
-  "main": "update-readme.js",
+  "description": "Enhance your GitHub Copilot experience with community-contributed instructions, prompts, agents, and skills.",
+  "main": "./eng/update-readme.js",
+  "private": true,
   "scripts": {
-    "build": "node update-readme.js",
+    "start": "npm run build",
+    "build": "node ./eng/update-readme.mjs && node ./eng/generate-marketplace.mjs",
     "contributors:add": "all-contributors add",
+    "contributors:report": "node ./eng/contributor-report.mjs",
     "contributors:generate": "all-contributors generate",
-    "contributors:check": "all-contributors check"
+    "contributors:check": "all-contributors check",
+    "plugin:validate": "node ./eng/validate-plugins.mjs",
+    "plugin:create": "node ./eng/create-plugin.mjs",
+    "skill:validate": "node ./eng/validate-skills.mjs",
+    "skill:create": "node ./eng/create-skill.mjs",
+    "plugin:clean": "node ./eng/clean-materialized-plugins.mjs",
+    "plugin:generate-marketplace": "node ./eng/generate-marketplace.mjs",
+    "website:data": "node ./eng/generate-website-data.mjs",
+    "website:dev": "npm run website:data && npm run --prefix website dev",
+    "website:build": "npm run build && npm run website:data && npm run --prefix website build",
+    "website:a11y": "npm run website:build && npm run --prefix website a11y",
+    "website:preview": "npm run --prefix website preview"
   },
   "repository": {
     "type": "git",
@@ -18,11 +32,21 @@
     "copilot",
     "ai",
     "prompts",
-    "instructions"
+    "instructions",
+    "skills",
+    "agents"
   ],
   "author": "GitHub",
   "license": "MIT",
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "@microsoft/vally": "^0.6.0",
     "all-contributors-cli": "^6.26.1"
+  },
+  "dependencies": {
+    "js-yaml": "^5.2.0",
+    "vfile": "^6.0.3",
+    "vfile-matter": "^5.0.1"
   }
 }
